@@ -45,7 +45,7 @@
     },{
       "pagePath": "pages/cart/cart",
       "text": "購物車",
-      "iconPath": "static/cartfill.png",
+      "iconPath": "static/cart_fill.png",
       "selectedIconPath": "static/cart_fill_active.png"
     }, {
       "pagePath": "pages/my/my",
