@@ -27,27 +27,31 @@
   "globalStyle": {
     "navigationBarTextStyle": "white",
     "navigationBarTitleText": "機密裝備交易平台",
-    "navigationBarBackgroundColor": "#00AEEC"
+    "navigationBarBackgroundColor": "#1D9BF0"
   },
   "tabBar": {
-    "selectedColor":"#FB7299",
+    "selectedColor":"#1D9BF0",
     "list": [
       {
         "pagePath": "pages/home/home",
         "text": "首頁",
-        "iconPath": "static/home1.png"
+        "iconPath": "static/home1.png",
+        "selectedIconPath": "static/home_active.png"
       }, {
       "pagePath": "pages/cate/cate",
       "text": "分類",
-      "iconPath": "static/bxs-category.png"
+      "iconPath": "static/bxs-category.png",
+      "selectedIconPath": "static/bxs-category _active.png"
     },{
       "pagePath": "pages/cart/cart",
       "text": "購物車",
-      "iconPath": "static/cartfill.png"
+      "iconPath": "static/cartfill.png",
+      "selectedIconPath": "static/cart_fill_active.png"
     }, {
       "pagePath": "pages/my/my",
       "text": "個人",
-      "iconPath": "static/user.png"
+      "iconPath": "static/user.png",
+      "selectedIconPath": "static/user_active.png"
     }]
   }
 }
