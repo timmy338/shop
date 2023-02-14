@@ -1,28 +1,38 @@
 {
   "pages": [{
-    "path": "pages/home/home",
-    "style": {
-      "enablePullDownRefresh": false
-    }
-  }, 
-  {
-    "path": "pages/cate/cate",
-    "style": {
-      "enablePullDownRefresh": false
-    }
+      "path": "pages/home/home",
+      "style": {
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/cate/cate",
+      "style": {
+        "enablePullDownRefresh": false
+      }
+    }, {
+      "path": "pages/cart/cart",
+      "style": {
+        "enablePullDownRefresh": false
+      }
 
-  }, {
-    "path": "pages/cart/cart",
-    "style": {
-      "enablePullDownRefresh": false
-    }
+    }, {
+      "path": "pages/my/my",
+      "style": {
+        "enablePullDownRefresh": false
+      }
 
-  }, {
-    "path": "pages/my/my",
-    "style": {
-      "enablePullDownRefresh": false
     }
-
+  ],
+  "subPackages": [{
+    "root": "subpkg",
+    "pages": [{
+      "path": "goods_detail/goods_detail",
+      "style": {
+        "navigationBarTitleText": "",
+        "enablePullDownRefresh": false
+      }
+    }]
   }],
   "globalStyle": {
     "navigationBarTextStyle": "white",
@@ -30,19 +40,18 @@
     "navigationBarBackgroundColor": "#1D9BF0"
   },
   "tabBar": {
-    "selectedColor":"#1D9BF0",
-    "list": [
-      {
-        "pagePath": "pages/home/home",
-        "text": "首頁",
-        "iconPath": "static/home.png",
-        "selectedIconPath": "static/home_active.png"
-      }, {
+    "selectedColor": "#1D9BF0",
+    "list": [{
+      "pagePath": "pages/home/home",
+      "text": "首頁",
+      "iconPath": "static/home.png",
+      "selectedIconPath": "static/home_active.png"
+    }, {
       "pagePath": "pages/cate/cate",
       "text": "分類",
       "iconPath": "static/bxs-category.png",
       "selectedIconPath": "static/bxs-category _active.png"
-    },{
+    }, {
       "pagePath": "pages/cart/cart",
       "text": "購物車",
       "iconPath": "static/cart_fill.png",
