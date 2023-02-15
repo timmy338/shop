@@ -1,6 +1,6 @@
 <template>
   <view>
-    goods_deatil_page
+        goods_list_page
   </view>
 </template>
 
