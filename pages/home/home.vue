@@ -1,7 +1,7 @@
 <template>
   <view>
     <view class="search-box">
-      <my-searchs @click="gotoSearch()"></my-searchs>
+      <my-searchs @click.native="gotoSearch()"></my-searchs>
     </view>
     <div class="box1">
       <div class="box"></div>
