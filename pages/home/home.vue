@@ -1,5 +1,8 @@
 <template>
   <view>
+    <view class="search-box">
+      <my-searchs @click="gotoSearch()"></my-searchs>
+    </view>
     <div class="box1">
       <div class="box"></div>
     </div>
@@ -19,6 +22,8 @@
         <image class="nav-img" :src="item.image_src" />
       </view>
     </view>
+    <!-- 商品 -->
+    <view class="place" v-for="i in 20"></view>
   </view>
 </template>
 
@@ -52,12 +57,23 @@
         if (res.meta.status !== 200) return uni.$showMsg()
         this.navList = res.message
         /* console.log(res) */
+      },
+      gotoSearch() {
+        uni.navigateTo({
+          url: '/subpkg/search/search'
+        })
       }
     }
   }
 </script>
 
 <style lang="scss">
+  .search-box {
+    position: sticky;
+    top: 0;
+    z-index: 90;
+  }
+
   .box1 .box {
     position: absolute;
     left: -30%;
@@ -88,5 +104,11 @@
       width: 128rpx;
       height: 140rpx;
     }
+  }
+
+  .place {
+    width: 30px;
+    background-color: #b1f0ec;
+    height: 50px;
   }
 </style>
