@@ -21,6 +21,7 @@
         <view class="favi">
           <uni-icons type="star" size="18" color="gray"></uni-icons>
           <text>收藏</text>
+      
         </view>
       </view>
       <view v-for="i in 20 " style="height: 20px;background-color: antiquewhite;"> test</view>
@@ -40,7 +41,13 @@
 </template>
 
 <script>
+  import {
+    mapState
+  } from 'vuex'
   export default {
+    computed: {
+      ...mapState('m_cart', ['cart'])
+    },
     data() {
       return {
         goods_info: {},
@@ -67,6 +74,7 @@
         ]
       };
     },
+
     onLoad(options) {
       const goods_id = options.goods_id
       this.getGoodsDetail(goods_id)
