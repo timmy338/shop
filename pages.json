@@ -2,13 +2,17 @@
   "pages": [{
       "path": "pages/home/home",
       "style": {
-        "enablePullDownRefresh": false
+        "enablePullDownRefresh": true,
+        "onReachBottomDistance": 150,
+        "backgroundColor": "#ffffff",
+        "navigationStyle": "custom"
       }
     },
     {
       "path": "pages/cate/cate",
       "style": {
-        "enablePullDownRefresh": false
+        "enablePullDownRefresh": false,
+         "navigationStyle": "custom"
       }
     }, {
       "path": "pages/cart/cart",
@@ -44,17 +48,18 @@
       "path": "search/search",
       "style": {
         "navigationBarTitleText": "",
-        "enablePullDownRefresh": false
+        "enablePullDownRefresh": false,
+        "backgroundColor": "#F0F0F2"
       }
     }]
   }],
   "globalStyle": {
-    "navigationBarTextStyle": "white",
+    "navigationBarTextStyle": "#fff",
     "navigationBarTitleText": "機密裝備交易平台",
-    "navigationBarBackgroundColor": "#1D9BF0"
+    "navigationBarBackgroundColor": "#ED5B6F"
   },
   "tabBar": {
-    "selectedColor": "#1D9BF0",
+    "selectedColor": "#ED5B6F",
     "list": [{
       "pagePath": "pages/home/home",
       "text": "首頁",

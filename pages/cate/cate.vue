@@ -1,7 +1,7 @@
 <template>
   <view>
     <!-- 使用自定义的搜索组件 -->
-    <my-searchs @click.native="gotoSearch()"></my-searchs>
+    <my-searchs></my-searchs>
     <view class="scroll-view-container">
       <!-- 左侧的滚动视图区域 -->
       <scroll-view class="left-scroll-view" scroll-y="true" :style="{height:wh + 'px'}">
@@ -11,7 +11,7 @@
         </block>
       </scroll-view>
       <!-- 右侧的滚动视图区域 -->
-      <scroll-view class="right-scroll-view" scroll-y="true" :style="{height:wh + 'px'}" :scroll-top="scrollTop"> 
+      <scroll-view class="right-scroll-view" scroll-y="true" :style="{height:wh + 'px'}" :scroll-top="scrollTop">
         <view class="cate-sub" v-for="(item2,i2) in cateSubList">
           <view class="cate-sub-title">/{{item2.cat_name}}/</view>
           <!-- 动态渲染三级分类的列表数据 -->
@@ -38,13 +38,16 @@
         cateList: [],
         active: 0,
         cateSubList: [],
-        scrollTop:0
+        scrollTop: 0
       };
     },
     onLoad() {
-      const sysInfo = uni.getSystemInfoSync()
+      const navBarInfo = uni.getMenuButtonBoundingClientRect()
+      const statusBarInfo = uni.getSystemInfoSync()
+      //+10 防止topbar太貼下方的組件
       // 可用高度 = 屏幕高度 - navigationBar高度 - tabBar高度 - 自定义的search组件高度
-      this.wh = sysInfo.windowHeight- 50
+      this.wh = statusBarInfo.windowHeight - (10 + statusBarInfo.statusBarHeight + navBarInfo.height + (navBarInfo.top -
+        statusBarInfo.statusBarHeight) * 2)
       //分類列表數據
       this.getCateList()
     },
@@ -62,7 +65,7 @@
       activeChange(index) {
         this.active = index;
         this.cateSubList = this.cateList[index].children
-        this.scrollTop=this.scrollTop?0:1
+        this.scrollTop = this.scrollTop ? 0 : 1
       },
       // 点击三级分类项跳转到商品列表页面
       gotoGoodsList(item3) {
@@ -70,11 +73,7 @@
           url: '/subpkg/goods_list/goods_list?cid=' + item3.cat_id
         })
       },
-      gotoSearch(){
-        uni.navigateTo({
-          url:'/subpkg/search/search'
-        })
-      }
+
     }
   }
 </script>
@@ -85,22 +84,25 @@
 
     .left-scroll-view {
       width: 110px;
+
       .left-scroll-view-item {
         line-height: 60px;
         background-color: #f7f7f7;
         text-align: center;
         font-size: 12px;
+
         // 激活项的样式
         &.active {
           background-color: #ffffff;
           position: relative;
+
           // 渲染激活项左侧的红色指示边线
           &::before {
             content: ' ';
             display: block;
             width: 3px;
             height: 30px;
-            background-color: #1D9BF0;
+            background-color: #ED8778;
             position: absolute;
             left: 0;
             top: 50%;
@@ -117,6 +119,7 @@
         text-align: center;
         padding: 15px 0;
       }
+
       .cate-third-list {
         display: flex;
         flex-wrap: wrap;

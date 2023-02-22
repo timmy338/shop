@@ -1,8 +1,9 @@
 <template>
-  <view>
-    <view class="search-box">
-      <my-searchs @click.native="gotoSearch()"></my-searchs>
+  <view class="home-page" :style="{'padding-top': topBar+'px'}">
+    <view class="top-bar">
+      <my-searchs></my-searchs>
     </view>
+
     <div class="box1">
       <div class="box"></div>
     </div>
@@ -22,8 +23,37 @@
         <image class="nav-img" :src="item.image_src" />
       </view>
     </view>
-    <!-- 商品 -->
-    <view class="place" v-for="i in 20"></view>
+    <!-- 楼层区域 -->
+    <view class="floor-list">
+      <text class="title">遊戲分類</text>
+      <!-- 楼层 item 项 -->
+      <view class="floor-item" v-for="(item, i) in floorList.slice(0,1)" :key="i">
+        <!-- 楼层图片区域 -->
+        <view class="floor-img-box">
+          <!-- 左侧大图片的盒子 -->
+          <view class="left-img-box">
+            <image :src="item.product_list[0].image_src" mode="widthFix"></image>
+          </view>
+          <!-- 右侧 4 个小图片的盒子 -->
+          <view class="right-img-box">
+            <view class="right-img-item" v-for="(item2, i2) in item.product_list.slice(1,3)" :key="i2">
+              <image :src="item2.image_src" mode="widthFix"></image>
+            </view>
+          </view>
+        </view>
+      </view>
+
+    </view>
+    <view class="rcmd-box">
+      <text class="title">推薦商品</text>
+      <!-- 推薦商品 -->
+      <view class="rcmd-list">
+        <view class="rcmd-item" v-for="(item,i) in rcmdList">
+          <my-goods :goods="item"></my-goods>
+        </view>
+      </view>
+    </view>
+
   </view>
 </template>
 
@@ -32,12 +62,33 @@
     data() {
       return {
         swiperList: [],
-        navList: []
-      };
+        navList: [],
+        rcmdList: [],
+        queryObj: {
+          // 查询关键词
+          query: '',
+          // 商品分类Id
+          cid: 5,
+          pagenum: 1,
+          pagesize: 10
+        },
+        total: 0,
+        isloading: false,
+        topBar: 0,
+        // 1. 楼层的数据列表
+        floorList: [],
+      }
     },
     onLoad() {
-      this.getSwiperList(),
-        this.getNavList()
+      this.getSwiperList()
+      this.getNavList()
+      this.getRcmdList()
+      this.getFloorList()
+      const navBarInfo = uni.getMenuButtonBoundingClientRect()
+      const statusBarInfo = uni.getSystemInfoSync()
+      //+10 防止topbar太貼下方的組件
+      this.topBar = 10 + statusBarInfo.statusBarHeight + navBarInfo.height + (navBarInfo.top - statusBarInfo
+        .statusBarHeight) * 2
     },
     methods: {
       //輪播圖數據
@@ -58,35 +109,93 @@
         this.navList = res.message
         /* console.log(res) */
       },
-      gotoSearch() {
-        uni.navigateTo({
-          url: '/subpkg/search/search'
-        })
+      // 3. 定义获取楼层列表数据的方法
+      async getFloorList() {
+        const {
+          data: res
+        } = await uni.$http.get('/api/public/v1/home/floordata')
+        if (res.meta.status !== 200) return uni.$showMsg()
+        this.floorList = res.message
+      },
+      //推薦欄數據
+      async getRcmdList() {
+        this.isloading = true
+        const {
+          data: res
+        } = await uni.$http.get('/api/public/v1/goods/search', this.queryObj)
+        this.isloading = false
+        if (res.meta.status !== 200) return uni.$showMsg()
+        /* console.log(res) */
+        // 为数据赋值
+        this.rcmdList = [...this.rcmdList, ...res.message.goods]
+        this.total = res.message.total
+      },
+      /* // 获取商品列表数据的方法
+      async getGoodsList(cb) {
+        this.isloading=true
+        // 发起请求
+        const {
+          data: res
+        } = await uni.$http.get('/api/public/v1/goods/search', this.queryObj)
+        this.isloading=false
+        cb && cb()
+        if (res.meta.status !== 200) return uni.$showMsg()
+        // 为数据赋值
+        this.goodsList = [...this.goodsList,...res.message.goods]
+        this.total = res.message.total
+      }, */
+
+    },
+    onReachBottom() {
+      //判斷是否還有下一頁數據
+      if (this.queryObj.pagenum * this.queryObj.pagesize >= this.total) {
+        return uni.$showMsg('數據加載完畢')
       }
-    }
+      if (this.isloading) return
+      //頁碼++
+      this.queryObj.pagenum++
+      this.getRcmdList()
+    },
   }
 </script>
 
 <style lang="scss">
-  .search-box {
-    position: sticky;
-    top: 0;
-    z-index: 90;
+  .home-page {
+    .title {
+      font-size: 20px;
+      font-weight: bold;
+      color: #EA475D;
+    }
+
+    .top-bar {
+      position: fixed;
+      top: 0;
+      z-index: 90;
+      width: 100%;
+    }
   }
 
-  .box1 .box {
+  .box1 {
     position: absolute;
-    left: -30%;
-    width: 150%;
+    width: 100%;
     height: 150px;
-    background-image: linear-gradient(0deg, #b1f0ec, #1D9BF0 50%);
-    border-bottom-left-radius: 40%;
-    border-bottom-right-radius: 100%;
+    background: linear-gradient(to right, #ED8778, #EA475D);
+    border-bottom-left-radius: 10%;
+    border-bottom-right-radius: 10%;
+
+    .box {
+      height: 150px;
+      width: 100%;
+      background: linear-gradient(to top, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0));
+    }
   }
 
   swiper {
     height: 330rpx;
     margin: 0 20rpx;
+    margin-top: 20rpx;
+    border-radius: 0.5em;
+    overflow: hidden;
 
     .swiper-item,
     image {
@@ -98,7 +207,11 @@
   .nav-list {
     display: flex;
     justify-content: space-around;
-    margin: 15rpx 0;
+    margin: 15rpx;
+    background-color: white;
+    padding: 20rpx;
+    border-radius: 0.5em;
+    box-shadow: 0px 0px 28rpx 1rpx rgba(78, 101, 153, 0.14);
 
     .nav-img {
       width: 128rpx;
@@ -106,9 +219,46 @@
     }
   }
 
-  .place {
-    width: 30px;
-    background-color: #b1f0ec;
-    height: 50px;
+  .floor-list {
+    padding: 20rpx;
+
+
+
+    .floor-img-box {
+      margin-top: 10px;
+      display: flex;
+
+      .left-img-box {
+        width: 50%;
+
+        image {
+          width: 100%;
+        }
+      }
+
+      .right-img-box {
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+
+        image {
+          width: 100%;
+        }
+      }
+    }
   }
+
+  .rcmd-box{
+     padding: 20rpx;
+    .rcmd-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    
+      .rcmd-item {
+        width: 48%;
+      }
+    }
+  }
+ 
 </style>

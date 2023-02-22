@@ -2,7 +2,7 @@
   <view>
     <view class="search-box">
       <!-- 使用 uni-ui 提供的搜索组件 -->
-      <uni-search-bar @input="input" :radius="100" cancelButton="none" placeholder="請輸入搜尋內容" bgColor="#F1F3F4"
+      <uni-search-bar @input="input" :radius="100" cancelButton="none" placeholder="請輸入搜尋內容" bgColor="#F1F3F4" 
         :focus="true"></uni-search-bar>
     </view>
     <!-- 搜索历史 -->
@@ -113,7 +113,6 @@
 
 <style lang="scss">
   .search-box {
-    background-color: #1D9BF0;
     position: sticky;
     top: 0;
     z-index: 10;
