@@ -1,5 +1,5 @@
 <template>
-  <view>
+  <view class="cate-page">
     <!-- 使用自定义的搜索组件 -->
     <my-searchs></my-searchs>
     <view class="scroll-view-container">
@@ -31,7 +31,9 @@
 </template>
 
 <script>
+  import badgeMix from '@/mixins/tabbar-badge.js'
   export default {
+    mixins: [badgeMix],
     data() {
       return {
         wh: 0,
@@ -79,68 +81,71 @@
 </script>
 
 <style lang="scss">
-  .scroll-view-container {
-    display: flex;
-
-    .left-scroll-view {
-      width: 110px;
-
-      .left-scroll-view-item {
-        line-height: 60px;
-        background-color: #f7f7f7;
-        text-align: center;
-        font-size: 12px;
-
-        // 激活项的样式
-        &.active {
-          background-color: #ffffff;
-          position: relative;
-
-          // 渲染激活项左侧的红色指示边线
-          &::before {
-            content: ' ';
-            display: block;
-            width: 3px;
-            height: 30px;
-            background-color: #ED8778;
-            position: absolute;
-            left: 0;
-            top: 50%;
-            transform: translateY(-50%);
+  .cate-page{
+    .scroll-view-container {
+      display: flex;
+    
+      .left-scroll-view {
+        width: 110px;
+    
+        .left-scroll-view-item {
+          line-height: 60px;
+          background-color: #f7f7f7;
+          text-align: center;
+          font-size: 12px;
+    
+          // 激活项的样式
+          &.active {
+            background-color: #ffffff;
+            position: relative;
+    
+            // 渲染激活项左侧的红色指示边线
+            &::before {
+              content: ' ';
+              display: block;
+              width: 3px;
+              height: 30px;
+              background-color: #ED8778;
+              position: absolute;
+              left: 0;
+              top: 50%;
+              transform: translateY(-50%);
+            }
           }
         }
       }
-    }
-
-    .right-scroll-view {
-      .cate-sub-title {
-        font-size: 12px;
-        font-weight: bold;
-        text-align: center;
-        padding: 15px 0;
-      }
-
-      .cate-third-list {
-        display: flex;
-        flex-wrap: wrap;
-
-        .cate-third-item {
-          width: 33.33%;
-          margin-bottom: 10px;
+    
+      .right-scroll-view {
+        .cate-sub-title {
+          font-size: 12px;
+          font-weight: bold;
+          text-align: center;
+          padding: 15px 0;
+        }
+    
+        .cate-third-list {
           display: flex;
-          flex-direction: column;
-          align-items: center;
-
-          image {
-            width: 60px;
-            height: 60px;
-          }
-
-          text {
-            font-size: 12px;
+          flex-wrap: wrap;
+    
+          .cate-third-item {
+            width: 33.33%;
+            margin-bottom: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+    
+            image {
+              width: 60px;
+              height: 60px;
+            }
+    
+            text {
+              font-size: 12px;
+            }
           }
         }
       }
     }
   }
+  
 </style>

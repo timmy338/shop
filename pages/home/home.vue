@@ -58,7 +58,9 @@
 </template>
 
 <script>
+  import badgeMix from '@/mixins/tabbar-badge.js'
   export default {
+    mixins: [badgeMix],
     data() {
       return {
         swiperList: [],
@@ -72,7 +74,7 @@
           pagenum: 1,
           pagesize: 10
         },
-        total: 0,
+        rcmdListTotal: 0,
         isloading: false,
         topBar: 0,
         // 1. 楼层的数据列表
@@ -128,7 +130,7 @@
         /* console.log(res) */
         // 为数据赋值
         this.rcmdList = [...this.rcmdList, ...res.message.goods]
-        this.total = res.message.total
+        this.rcmdListTotal = res.message.rcmdListTotal
       },
       /* // 获取商品列表数据的方法
       async getGoodsList(cb) {
@@ -142,13 +144,13 @@
         if (res.meta.status !== 200) return uni.$showMsg()
         // 为数据赋值
         this.goodsList = [...this.goodsList,...res.message.goods]
-        this.total = res.message.total
+        this.rcmdListTotal = res.message.rcmdListTotal
       }, */
 
     },
     onReachBottom() {
       //判斷是否還有下一頁數據
-      if (this.queryObj.pagenum * this.queryObj.pagesize >= this.total) {
+      if (this.queryObj.pagenum * this.queryObj.pagesize >= this.rcmdListTotal) {
         return uni.$showMsg('數據加載完畢')
       }
       if (this.isloading) return
@@ -173,92 +175,88 @@
       z-index: 90;
       width: 100%;
     }
-  }
 
-  .box1 {
-    position: absolute;
-    width: 100%;
-    height: 150px;
-    background: linear-gradient(to right, #ED8778, #EA475D);
-    border-bottom-left-radius: 10%;
-    border-bottom-right-radius: 10%;
-
-    .box {
+    .box1 {
+      position: absolute;
+      width: 100%;
       height: 150px;
-      width: 100%;
-      background: linear-gradient(to top, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0));
-    }
-  }
+      background: linear-gradient(to right, #ED8778, #EA475D);
+      border-bottom-left-radius: 10%;
+      border-bottom-right-radius: 10%;
 
-  swiper {
-    height: 330rpx;
-    margin: 0 20rpx;
-    margin-top: 20rpx;
-    border-radius: 0.5em;
-    overflow: hidden;
-
-    .swiper-item,
-    image {
-      width: 100%;
-      height: 100%;
-    }
-  }
-
-  .nav-list {
-    display: flex;
-    justify-content: space-around;
-    margin: 15rpx;
-    background-color: white;
-    padding: 20rpx;
-    border-radius: 0.5em;
-    box-shadow: 0px 0px 28rpx 1rpx rgba(78, 101, 153, 0.14);
-
-    .nav-img {
-      width: 128rpx;
-      height: 140rpx;
-    }
-  }
-
-  .floor-list {
-    padding: 20rpx;
-
-
-
-    .floor-img-box {
-      margin-top: 10px;
-      display: flex;
-
-      .left-img-box {
-        width: 50%;
-
-        image {
-          width: 100%;
-        }
+      .box {
+        height: 150px;
+        width: 100%;
+        background: linear-gradient(to top, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0));
       }
+    }
 
-      .right-img-box {
-        width: 50%;
+    swiper {
+      height: 330rpx;
+      margin: 0 20rpx;
+      margin-top: 20rpx;
+      border-radius: 0.5em;
+      overflow: hidden;
+
+      .swiper-item,
+      image {
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    .nav-list {
+      display: flex;
+      justify-content: space-around;
+      margin: 15rpx;
+      background-color: white;
+      padding: 20rpx;
+      border-radius: 0.5em;
+      box-shadow: 0px 0px 28rpx 1rpx rgba(78, 101, 153, 0.14);
+
+      .nav-img {
+        width: 128rpx;
+        height: 140rpx;
+      }
+    }
+
+    .floor-list {
+      padding: 20rpx;
+      .floor-img-box {
+        margin-top: 10px;
         display: flex;
-        flex-direction: column;
 
-        image {
-          width: 100%;
+        .left-img-box {
+          width: 50%;
+
+          image {
+            width: 100%;
+          }
+        }
+
+        .right-img-box {
+          width: 50%;
+          display: flex;
+          flex-direction: column;
+
+          image {
+            width: 100%;
+          }
+        }
+      }
+    }
+
+    .rcmd-box {
+      padding: 20rpx;
+
+      .rcmd-list {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        .rcmd-item {
+          width: 48%;
         }
       }
     }
   }
-
-  .rcmd-box{
-     padding: 20rpx;
-    .rcmd-list {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-    
-      .rcmd-item {
-        width: 48%;
-      }
-    }
-  }
- 
 </style>

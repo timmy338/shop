@@ -1,5 +1,5 @@
 <template>
-  <view class="goods-detail-container" v-if="goods_info.goods_name">
+  <view class="goods-detail-page" v-if="goods_info.goods_name">
     <!-- 轮播图区域 -->
     <swiper :indicator-dots="true" :autoplay="true" :interval="3000" :duration="1000" :circular="true">
       <swiper-item v-for="(item, i) in goods_info.pics" :key="i">
@@ -20,8 +20,8 @@
         <!-- 收藏 -->
         <view class="favi">
           <uni-icons type="star" size="18" color="gray"></uni-icons>
-          <text>收藏</text>
-      
+          <text>收藏{{cart.length}}</text>
+
         </view>
       </view>
       <view v-for="i in 20 " style="height: 20px;background-color: antiquewhite;"> test</view>
@@ -42,11 +42,25 @@
 
 <script>
   import {
-    mapState
+    mapState,
+    mapMutations,
+    mapGetters
   } from 'vuex'
   export default {
     computed: {
-      ...mapState('m_cart', ['cart'])
+      ...mapState('m_cart', ['cart']),
+      ...mapGetters('m_cart', ['total'])
+    },
+    watch: {
+      total: {
+        handler(newVal) {
+          const findResult = this.options.find(x => x.text === '购物车')
+          if (findResult) {
+            findResult.info = newVal
+          }
+        },
+        immediate: true
+      }
     },
     data() {
       return {
@@ -58,17 +72,17 @@
         }, {
           icon: 'cart',
           text: '购物车',
-          info: 2
+          info: 0
         }],
         // 右侧按钮组的配置对象
         buttonGroup: [{
             text: '加入购物车',
-            backgroundColor: 'linear-gradient(90deg, #1D9BF0, #1c63f0)',
+            backgroundColor: 'linear-gradient(to right,  #eeaea8,#EE7F75)',
             color: '#fff'
           },
           {
             text: '立即购买',
-            backgroundColor: 'linear-gradient(90deg, #60F3FF, #088FEB)',
+            backgroundColor: '#EB5161',
             color: '#fff'
           }
         ]
@@ -80,6 +94,7 @@
       this.getGoodsDetail(goods_id)
     },
     methods: {
+      ...mapMutations('m_cart', ['addToCart']),
       // 获取商品数据的方法
       async getGoodsDetail(goods_id) {
         const {
@@ -108,65 +123,79 @@
             url: '/pages/cart/cart'
           })
         }
+      },
+      buttonClick(e) {
+        if (e.content.text === '加入购物车') {
+          const goods = {
+            goods_id: this.goods_info.goods_id,
+            goods_name: this.goods_info.goods_name,
+            goods_price: this.goods_info.goods_price,
+            goods_count: 1,
+            goods_small_logo: this.goods_info.goods_small_logo,
+            goods_state: true
+          }
+          this.addToCart(goods)
+        }
       }
     }
   }
 </script>
 
 <style lang="scss">
-  .goods-detail-container {
+  .goods-detail-page {
     // 给页面外层的容器，添加 50px 的内padding，
     // 防止页面内容被底部的商品导航组件遮盖
     padding-bottom: 50px;
-  }
-
-  swiper {
-    height: 750rpx;
-
-    image {
-      width: 100%;
-      height: 100%;
+    swiper {
+      height: 750rpx;
+    
+      image {
+        width: 100%;
+        height: 100%;
+      }
     }
-  }
-
-  .goods-info-box {
-    padding: 10px;
-
-    .price {
-      margin: 10px 0;
-      font-size: 18px;
-      font-weight: bold;
-      color: #EB554E;
-    }
-
-    .goods-info-body {
-      display: flex;
-      justify-content: space-between;
-
-      .goods-name {
-        font-size: 14px;
+    
+    .goods-info-box {
+      padding: 10px;
+    
+      .price {
+        margin: 10px 0;
+        font-size: 18px;
         font-weight: bold;
-        padding-right: 10px;
+        color: #EB554E;
       }
-
-      .favi {
-        width: 120px;
-        font-size: 12px;
+    
+      .goods-info-body {
         display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        border-left: 1px solid #efefef;
-        color: gray;
+        justify-content: space-between;
+    
+        .goods-name {
+          font-size: 14px;
+          font-weight: bold;
+          padding-right: 10px;
+        }
+    
+        .favi {
+          width: 120px;
+          font-size: 12px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          border-left: 1px solid #efefef;
+          color: gray;
+        }
       }
+    }
+    
+    .goods_nav {
+      // 为商品导航组件添加固定定位
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
     }
   }
 
-  .goods_nav {
-    // 为商品导航组件添加固定定位
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-  }
+ 
 </style>
