@@ -1,7 +1,10 @@
 <template>
   <view class="home-page" :style="{'padding-top': topBar+'px'}">
     <view class="top-bar">
-      <my-searchs></my-searchs>
+      <my-top>
+        <my-searchs></my-searchs>
+      </my-top>
+
     </view>
 
     <div class="box1">
@@ -185,7 +188,7 @@
       border-bottom-right-radius: 10%;
 
       .box {
-        height: 150px;
+        height: 100%;
         width: 100%;
         background: linear-gradient(to top, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0));
       }
@@ -222,6 +225,7 @@
 
     .floor-list {
       padding: 20rpx;
+
       .floor-img-box {
         margin-top: 10px;
         display: flex;
@@ -253,6 +257,7 @@
         display: flex;
         flex-wrap: wrap;
         justify-content: space-between;
+
         .rcmd-item {
           width: 48%;
         }

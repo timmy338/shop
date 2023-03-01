@@ -1,5 +1,6 @@
 <template>
   <view class="cart-page">
+    <my-top></my-top>
     <view class="cart-container" v-if="cart.length!==0">
       <my-address></my-address>
       <!-- 购物车商品列表的标题区域 -->

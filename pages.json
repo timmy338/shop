@@ -17,12 +17,14 @@
     }, {
       "path": "pages/cart/cart",
       "style": {
-        "enablePullDownRefresh": false
+        "enablePullDownRefresh": false,
+        "navigationStyle": "custom"
       }
     }, {
       "path": "pages/my/my",
       "style": {
-        "enablePullDownRefresh": false
+        "enablePullDownRefresh": false,
+        "navigationStyle": "custom"
       }
 
     }

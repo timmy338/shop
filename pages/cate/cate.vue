@@ -1,7 +1,9 @@
 <template>
   <view class="cate-page">
     <!-- 使用自定义的搜索组件 -->
-    <my-searchs></my-searchs>
+    <my-top>
+      <my-searchs></my-searchs>
+    </my-top>
     <view class="scroll-view-container">
       <!-- 左侧的滚动视图区域 -->
       <scroll-view class="left-scroll-view" scroll-y="true" :style="{height:wh + 'px'}">
