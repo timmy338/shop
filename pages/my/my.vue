@@ -1,6 +1,7 @@
 <template>
   <view>
     <my-top></my-top>
+    <my-background-gradient :height="300"></my-background-gradient>
     <my-login v-if="!token"></my-login>
     <my-userinfo v-else></my-userinfo>
   </view>

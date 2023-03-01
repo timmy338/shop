@@ -4,12 +4,8 @@
       <my-top>
         <my-searchs></my-searchs>
       </my-top>
-
     </view>
-
-    <div class="box1">
-      <div class="box"></div>
-    </div>
+    <my-background-gradient></my-background-gradient>
 
     <!--轮播图-->
     <swiper :indicator-dots="true" :autoplay="true" :interval="3000" :duration="1000" :circular="true">
@@ -179,20 +175,7 @@
       width: 100%;
     }
 
-    .box1 {
-      position: absolute;
-      width: 100%;
-      height: 150px;
-      background: linear-gradient(to right, #ED8778, #EA475D);
-      border-bottom-left-radius: 10%;
-      border-bottom-right-radius: 10%;
 
-      .box {
-        height: 100%;
-        width: 100%;
-        background: linear-gradient(to top, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0));
-      }
-    }
 
     swiper {
       height: 330rpx;
