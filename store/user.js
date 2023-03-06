@@ -30,7 +30,7 @@ export default {
     },
     // 将 token 字符串持久化存储到本地
     saveTokenToStorage(state) {
-      uni.setStorageSync('token', JSON.stringify(state.token))
+      uni.setStorageSync('token', state.token)
     }
   },
   getters: {
