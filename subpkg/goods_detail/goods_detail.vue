@@ -1,26 +1,27 @@
 <template>
-  <view class="goods-detail-page" v-if="goods_info.goods_name">
+  <view class="goods-detail-page" v-if="goods_info.equipname">
     <!-- 轮播图区域 -->
-    <swiper :indicator-dots="true" :autoplay="true" :interval="3000" :duration="1000" :circular="true">
-      <swiper-item v-for="(item, i) in goods_info.pics" :key="i">
-        <image :src="item.pics_big" @click="preview(i)"></image>
+<!--    <swiper :indicator-dots="true" :autoplay="true" :interval="3000" :duration="1000" :circular="true">
+      <swiper-item v-for="(item, i) in [...goods_info.img] " :key="i">
+        <image :src="item" @click="preview(i)"></image>
       </swiper-item>
-    </swiper>
+    </swiper> -->
+     <image :src="goods_info.img" @click="preview()"></image>
     <!-- 商品信息区域 -->
     <view class="goods-info-box">
       <!-- 商品价格 -->
       <view class="price">
-        ￥{{goods_info.goods_price}}
+        ￥{{goods_info.price}}
       </view>
       <!-- 信息主体区域 -->
       <view class="goods-info-body">
         <view class="goods-name">
-          {{goods_info.goods_name}}
+          {{goods_info.equipname}}
         </view>
         <!-- 收藏 -->
         <view class="favi">
           <uni-icons type="star" size="18" color="gray"></uni-icons>
-          <text>收藏{{cart.length}}</text>
+          <text>收藏</text>
 
         </view>
       </view>
@@ -90,30 +91,31 @@
     },
 
     onLoad(options) {
-      const goods_id = options.goods_id
-      this.getGoodsDetail(goods_id)
+      const id = options.id
+      this.getGoodsDetail(id)
     },
     methods: {
       ...mapMutations('m_cart', ['addToCart']),
       // 获取商品数据的方法
-      async getGoodsDetail(goods_id) {
+      async getGoodsDetail(id) {
         const {
           data: res
-        } = await uni.$http.get('/api/public/v1/goods/detail', {
-          goods_id
+        } = await uni.$http.get('/getDetail', {
+          id
         })
-        if (res.meta.status !== 200) return uni.$showMsg()
+        if (res.code !== 0) return uni.$showMsg()
         // 为数据赋值
         this.goods_info = res.message
       },
       // 实现轮播图的预览效果
-      preview(i) {
+      preview() {
+        let imgsArray = [this.goods_info.img];
         // 调用 uni.previewImage() 方法预览图片
         uni.previewImage({
           // 预览时，默认显示图片的索引
-          current: i,
+          current: 0,
           // 所有图片 url 地址的数组
-          urls: this.goods_info.pics.map(x => x.pics_big)
+          urls: imgsArray
         })
       },
       onClick(e) {
@@ -127,7 +129,7 @@
       buttonClick(e) {
         if (e.content.text === '加入购物车') {
           const goods = {
-            goods_id: this.goods_info.goods_id,
+            id: this.goods_info.id,
             goods_name: this.goods_info.goods_name,
             goods_price: this.goods_info.goods_price,
             goods_count: 1,
@@ -146,14 +148,14 @@
     // 给页面外层的容器，添加 50px 的内padding，
     // 防止页面内容被底部的商品导航组件遮盖
     padding-bottom: 50px;
-    swiper {
-      height: 750rpx;
+    // swiper {
+    //   height: 750rpx;
     
-      image {
-        width: 100%;
-        height: 100%;
-      }
-    }
+    //   image {
+    //     width: 100%;
+    //     height: 100%;
+    //   }
+    // }
     
     .goods-info-box {
       padding: 10px;

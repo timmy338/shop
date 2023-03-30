@@ -18,11 +18,11 @@
         // 请求参数对象
         queryObj: {
           // 查询关键词
-          query: '',
+          searchKW: '',
           // 商品分类Id
           cid: '',
-          pagenum: 1,
-          pagesize: 10
+          current: 1,
+          pageSize: 10
         },
         goodsList: [],
         total: 0,
@@ -31,7 +31,7 @@
     },
     onLoad(options) {
       // 将页面参数转存到 this.queryObj 对象中
-      this.queryObj.query = options.query || ''
+      this.queryObj.searchKW = options.searchKW || ''
       this.queryObj.cid = options.cid || ''
       this.getGoodsList()
     },
@@ -42,28 +42,28 @@
         // 发起请求
         const {
           data: res
-        } = await uni.$http.get('/api/public/v1/goods/search', this.queryObj)
+        } = await uni.$http.get('/search', this.queryObj)
         this.isloading = false
         cb && cb()
-        if (res.meta.status !== 200) return uni.$showMsg()
+        if (res.code !== 0) return uni.$showMsg()
         // 为数据赋值
-        this.goodsList = [...this.goodsList, ...res.message.goods]
-        this.total = res.message.total
+        this.goodsList = [...this.goodsList, ...res.message]
+        this.total = res.totalPage
       },
       gotoDetail(goods) {
         uni.navigateTo({
-          url: '/subpkg/goods_detail/goods_detail?goods_id=' + goods.goods_id
+          url: '/subpkg/goods_detail/goods_detail?id=' + goods.id
         })
       },
     },
     onReachBottom() {
       //判斷是否還有下一頁數據
-      if (this.queryObj.pagenum * this.queryObj.pagesize >= this.total) {
+      if (this.queryObj.current== this.total) {
         return uni.$showMsg('數據加載完畢')
       }
       if (this.isloading) return
       //頁碼++
-      this.queryObj.pagenum++
+      this.queryObj.current++
       this.getGoodsList()
     },
     onPullDownRefresh() {

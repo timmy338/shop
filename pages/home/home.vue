@@ -11,7 +11,7 @@
     <swiper :indicator-dots="true" :autoplay="true" :interval="3000" :duration="1000" :circular="true">
       <swiper-item v-for="(item,i) in swiperList" :key="i">
         <navigator class="swiper-item" :url="'/subpkg/goods_detail/goods_detail?good_id='+item.goods_id">
-          <image :src="item.image_src"></image>
+          <image :src="'http://localhost:8080/image/swiper/'+item.img"></image>
         </navigator>
       </swiper-item>
     </swiper>
@@ -19,7 +19,8 @@
     <!-- 導航 -->
     <view class="nav-list">
       <view class="nav-item" v-for="(item,i) in navList" :key="i">
-        <image class="nav-img" :src="item.image_src" />
+        <image class="nav-img" :src="'http://localhost:8080/image/home_type/'+item.image" />
+        <text>{{item.name}}</text>
       </view>
     </view>
     <!-- 楼层区域 -->
@@ -66,14 +67,10 @@
         navList: [],
         rcmdList: [],
         queryObj: {
-          // 查询关键词
-          query: '',
-          // 商品分类Id
-          cid: 5,
-          pagenum: 1,
-          pagesize: 10
+          current: 1,
+          pageSize: 10
         },
-        rcmdListTotal: 0,
+        rcmdListTotalPage: 0,
         isloading: false,
         topBar: 0,
         // 1. 楼层的数据列表
@@ -84,7 +81,7 @@
       this.getSwiperList()
       this.getNavList()
       this.getRcmdList()
-      this.getFloorList()
+      //this.getFloorList()
       const navBarInfo = uni.getMenuButtonBoundingClientRect()
       const statusBarInfo = uni.getSystemInfoSync()
       //+10 防止topbar太貼下方的組件
@@ -96,19 +93,18 @@
       async getSwiperList() {
         const {
           data: res
-        } = await uni.$http.get('/api/public/v1/home/swiperdata')
-        if (res.meta.status !== 200) return uni.$showMsg()
+        } = await uni.$http.get('/main/swiper')
+        if (res.code !== 0) return uni.$showMsg()
         this.swiperList = res.message
-        /* console.log(res) */
       },
       //导航數據
       async getNavList() {
         const {
           data: res
-        } = await uni.$http.get('/api/public/v1/home/catitems')
-        if (res.meta.status !== 200) return uni.$showMsg()
+        } = await uni.$http.get('/main/home_type')
+        if (res.code !== 0) return uni.$showMsg()
         this.navList = res.message
-        /* console.log(res) */
+       // console.log(res)
       },
       // 3. 定义获取楼层列表数据的方法
       async getFloorList() {
@@ -123,13 +119,13 @@
         this.isloading = true
         const {
           data: res
-        } = await uni.$http.get('/api/public/v1/goods/search', this.queryObj)
+        } = await uni.$http.get('/main/home_hot', this.queryObj)
         this.isloading = false
-        if (res.meta.status !== 200) return uni.$showMsg()
-        /* console.log(res) */
+        if (res.code !== 0) return uni.$showMsg()
+        console.log(res)
         // 为数据赋值
-        this.rcmdList = [...this.rcmdList, ...res.message.goods]
-        this.rcmdListTotal = res.message.rcmdListTotal
+        this.rcmdList = [...this.rcmdList, ...res.message]
+        this.rcmdListTotalPage = res.totalPage
       },
       /* // 获取商品列表数据的方法
       async getGoodsList(cb) {
@@ -149,12 +145,12 @@
     },
     onReachBottom() {
       //判斷是否還有下一頁數據
-      if (this.queryObj.pagenum * this.queryObj.pagesize >= this.rcmdListTotal) {
+      if (this.queryObj.current == this.rcmdListTotalPage) {
         return uni.$showMsg('數據加載完畢')
       }
       if (this.isloading) return
       //頁碼++
-      this.queryObj.pagenum++
+      this.queryObj.current++
       this.getRcmdList()
     },
   }
@@ -200,10 +196,21 @@
       border-radius: 0.5em;
       box-shadow: 0px 0px 28rpx 1rpx rgba(78, 101, 153, 0.14);
 
-      .nav-img {
-        width: 128rpx;
-        height: 140rpx;
+      .nav-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        color: #938058;
+        .nav-img {
+          width: 80rpx;
+          height: 80rpx;
+        }
+        text{
+          font-size: 10px;
+        }
       }
+
+ 
     }
 
     .floor-list {

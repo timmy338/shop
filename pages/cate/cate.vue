@@ -8,22 +8,23 @@
       <!-- 左侧的滚动视图区域 -->
       <scroll-view class="left-scroll-view" scroll-y="true" :style="{height:wh + 'px'}">
         <block v-for="(item,i) in cateList" :key="i">
-          <view :class="['left-scroll-view-item',i===active?'active':'']" @click="activeChange(i)">{{item.cat_name}}
+          <view :class="['left-scroll-view-item',i===active?'active':'']" @click="activeChange(i)">{{item.name}}
           </view>
         </block>
       </scroll-view>
       <!-- 右侧的滚动视图区域 -->
       <scroll-view class="right-scroll-view" scroll-y="true" :style="{height:wh + 'px'}" :scroll-top="scrollTop">
         <view class="cate-sub" v-for="(item2,i2) in cateSubList">
-          <view class="cate-sub-title">/{{item2.cat_name}}/</view>
-          <!-- 动态渲染三级分类的列表数据 -->
-          <view class="cate-third-list">
-            <!-- 三级分类 Item 项 -->
-            <view class="cate-third-item" v-for="(item3, i3) in item2.children" :key="i3" @click="gotoGoodsList(item3)">
-              <!-- 图片 -->
-              <image :src="item3.cat_icon"></image>
-              <!-- 文本 -->
-              <text>{{item3.cat_name}}</text>
+          <view v-if="item2.secoundType.length!=0">
+            <view class="cate-sub-title">/{{item2.name}}/</view>
+            <!-- 动态渲染三级分类的列表数据 -->
+            <view class="cate-third-list">
+              <!-- 三级分类 Item 项 -->
+              <view class="cate-third-item" v-for="(item3, i3) in item2.secoundType" :key="i3"
+                @click="gotoGoodsList(item3)">
+                <!-- 文本 -->
+                <text>{{item3.name}}</text>
+              </view>
             </view>
           </view>
         </view>
@@ -60,15 +61,16 @@
       async getCateList() {
         const {
           data: res
-        } = await uni.$http.get('/api/public/v1/categories')
-        if (res.meta.status !== 200) return uni.$showMsg()
+        } = await uni.$http.get('/category')
+        if (res.code !== 0) return uni.$showMsg()
+        //console.log(res.message)
         this.cateList = res.message
-        this.cateSubList = res.message[0].children
+        this.cateSubList = res.message[0].secoundType
       },
       //點擊左側分類事件
       activeChange(index) {
         this.active = index;
-        this.cateSubList = this.cateList[index].children
+        this.cateSubList = this.cateList[index].secoundType
         this.scrollTop = this.scrollTop ? 0 : 1
       },
       // 点击三级分类项跳转到商品列表页面
@@ -83,24 +85,27 @@
 </script>
 
 <style lang="scss">
-  .cate-page{
+  .cate-page {
+    background-color: white;
+
     .scroll-view-container {
       display: flex;
-    
+
       .left-scroll-view {
         width: 110px;
-    
+        background-color: #F7F7F7;
+
         .left-scroll-view-item {
           line-height: 60px;
           background-color: #f7f7f7;
           text-align: center;
           font-size: 12px;
-    
+
           // 激活项的样式
           &.active {
             background-color: #ffffff;
             position: relative;
-    
+
             // 渲染激活项左侧的红色指示边线
             &::before {
               content: ' ';
@@ -116,7 +121,7 @@
           }
         }
       }
-    
+
       .right-scroll-view {
         .cate-sub-title {
           font-size: 12px;
@@ -124,30 +129,29 @@
           text-align: center;
           padding: 15px 0;
         }
-    
+
         .cate-third-list {
           display: flex;
           flex-wrap: wrap;
-    
+
           .cate-third-item {
-            width: 33.33%;
+            width: 40%;
+            padding: 10rpx 10rpx;
+            margin-left: 20rpx;
             margin-bottom: 10px;
             display: flex;
             flex-direction: column;
             align-items: center;
-    
-            image {
-              width: 60px;
-              height: 60px;
-            }
-    
+            border: 1px #9197A5 solid;
+            border-radius: 0.5em;
+            color: #9197A5;
+
             text {
-              font-size: 12px;
+              font-size: 14px;
             }
           }
         }
       }
     }
   }
-  
 </style>

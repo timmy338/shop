@@ -7,8 +7,8 @@ import store from '@/store/store.js'
 import { $http } from '@escook/request-miniprogram'
 uni.$http = $http
 // 配置请求根路径
-$http.baseUrl = 'https://www.uinav.com/'
-
+/* $http.baseUrl = 'https://www.uinav.com/' */
+$http.baseUrl = 'http://localhost:8080/'
 // 请求开始之前做一些事情
 $http.beforeRequest = function (options) {
   uni.showLoading({
