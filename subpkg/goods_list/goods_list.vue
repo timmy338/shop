@@ -3,7 +3,7 @@
   <view class="goods-list-page">
     <!-- 商品列表 -->
     <view class="goods-list">
-      <view class="goods-box" v-for="(item, i) in goodsList" @click="gotoDetail(item)">
+      <view class="goods-box" v-for="(item, i) in goodsList" >
         <!-- 为 my-goods 组件动态绑定 goods 属性的值 -->
         <my-goods :goods="item"></my-goods>
       </view>
@@ -50,11 +50,7 @@
         this.goodsList = [...this.goodsList, ...res.message]
         this.total = res.totalPage
       },
-      gotoDetail(goods) {
-        uni.navigateTo({
-          url: '/subpkg/goods_detail/goods_detail?id=' + goods.id
-        })
-      },
+
     },
     onReachBottom() {
       //判斷是否還有下一頁數據

@@ -18,10 +18,10 @@
 
     <!-- 導航 -->
     <view class="nav-list">
-      <view class="nav-item" v-for="(item,i) in navList" :key="i">
+      <navigator class="nav-item" v-for="(item,i) in navList" :key="i" :url="'/subpkg/'+item.remark">
         <image class="nav-img" :src="'http://localhost:8080/image/home_type/'+item.image" />
         <text>{{item.name}}</text>
-      </view>
+      </navigator>
     </view>
     <!-- 楼层区域 -->
     <view class="floor-list">
@@ -104,7 +104,7 @@
         } = await uni.$http.get('/main/home_type')
         if (res.code !== 0) return uni.$showMsg()
         this.navList = res.message
-       // console.log(res)
+        // console.log(res)
       },
       // 3. 定义获取楼层列表数据的方法
       async getFloorList() {
@@ -201,16 +201,18 @@
         flex-direction: column;
         align-items: center;
         color: #938058;
+
         .nav-img {
           width: 80rpx;
           height: 80rpx;
         }
-        text{
+
+        text {
           font-size: 10px;
         }
       }
 
- 
+
     }
 
     .floor-list {

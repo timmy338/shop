@@ -53,7 +53,16 @@
         "enablePullDownRefresh": false,
         "backgroundColor": "#F0F0F2"
       }
-    }]
+    }    ,{
+                    "path" : "upload/upload",
+                    "style" :                                                                                    
+                {
+                    "navigationBarTitleText": "",
+                    "enablePullDownRefresh": false
+                }
+                
+                }
+            ]
   }],
   "globalStyle": {
     "navigationBarTextStyle": "#fff",

@@ -1,12 +1,12 @@
 <template>
   <view class="goods-detail-page" v-if="goods_info.equipname">
     <!-- 轮播图区域 -->
-<!--    <swiper :indicator-dots="true" :autoplay="true" :interval="3000" :duration="1000" :circular="true">
+    <!--    <swiper :indicator-dots="true" :autoplay="true" :interval="3000" :duration="1000" :circular="true">
       <swiper-item v-for="(item, i) in [...goods_info.img] " :key="i">
         <image :src="item" @click="preview(i)"></image>
       </swiper-item>
     </swiper> -->
-     <image :src="goods_info.img" @click="preview()"></image>
+    <image :src="goods_info.img" @click="preview()"></image>
     <!-- 商品信息区域 -->
     <view class="goods-info-box">
       <!-- 商品价格 -->
@@ -22,10 +22,25 @@
         <view class="favi">
           <uni-icons type="star" size="18" color="gray"></uni-icons>
           <text>收藏</text>
-
         </view>
       </view>
-      <view v-for="i in 20 " style="height: 20px;background-color: antiquewhite;"> test</view>
+      <view class="tagListView">
+        <view v-for="(item,i) in goods_info.tagList" class="tag">
+          {{item}}
+        </view>
+      </view>
+      <view class="seller">
+        <image :src="goods_info.user.img"></image>
+        <view class="name">
+          {{ goods_info.user.realName}}
+        </view>
+      </view>
+      <view class="title">相似商品</view>
+      <view class="content-rcmd">
+        <view class="goods-box" v-for="item in goods_info.equipRcmdList">
+          <my-goods :goods="item"></my-goods>
+        </view>
+      </view>
     </view>
 
     <!-- 商品导航组件 -->
@@ -150,33 +165,34 @@
     padding-bottom: 50px;
     // swiper {
     //   height: 750rpx;
-    
+
     //   image {
     //     width: 100%;
     //     height: 100%;
     //   }
     // }
-    
+
     .goods-info-box {
       padding: 10px;
-    
+      background-color: #FFFFFF;
+
       .price {
         margin: 10px 0;
         font-size: 18px;
         font-weight: bold;
         color: #EB554E;
       }
-    
+
       .goods-info-body {
         display: flex;
         justify-content: space-between;
-    
+
         .goods-name {
-          font-size: 14px;
+          font-size: 18px;
           font-weight: bold;
           padding-right: 10px;
         }
-    
+
         .favi {
           width: 120px;
           font-size: 12px;
@@ -189,7 +205,7 @@
         }
       }
     }
-    
+
     .goods_nav {
       // 为商品导航组件添加固定定位
       position: fixed;
@@ -197,7 +213,50 @@
       left: 0;
       width: 100%;
     }
-  }
 
- 
+    .tagListView {
+      margin-top: 20rpx;
+      display: flex;
+      color: #61666D;
+      font-size: 12px;
+
+      .tag {
+        margin-right: 10rpx;
+        padding: 10rpx 20rpx;
+        border-radius: 1em;
+        background-color: #e4e4e5;
+      }
+    }
+
+    .seller {
+      margin-top: 10px;
+      display: flex;
+      align-items: center;
+
+      image {
+        width: 40px;
+        height: 40px;
+        border-radius: 3em;
+      }
+
+      .name {
+        margin-left: 10px;
+      }
+    }
+    .title{
+        margin-top: 30rpx;
+        font-size: 20px;
+        font-weight: bold;
+      }
+    .content-rcmd {
+      padding: 5rpx;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+  
+      .goods-box {
+        width: 48%;
+      }
+    }
+  }
 </style>
