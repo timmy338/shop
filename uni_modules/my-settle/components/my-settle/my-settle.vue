@@ -19,7 +19,6 @@
   export default {
     computed: {
       ...mapGetters('m_cart', ['checkedCount', 'total', 'checkedGoodsAmount']),
-      ...mapGetters('m_user', ['addstr']),
       ...mapState('m_user', ['token']),
       isFullCheck() {
         return this.total === this.checkedCount
@@ -29,31 +28,37 @@
       return {
         secounds: 3,
         //定時器id
-        timer:null
+        timer: null
       };
     },
     methods: {
       ...mapMutations('m_cart', ['updateAllGoodsState']),
       settlement() {
         if (!this.checkedCount) return uni.$showMsg('請先勾選商品!')
-        if (!this.addstr) return uni.$showMsg('請選擇收貨信息!')
-       /* if (!this.token) return uni.$showMsg('請先登錄!') */
-       if (!this.token) return this.delayNavigate()
+        if (!this.token) return uni.$showMsg('請先登錄!')
+        if (!this.token) return this.delayNavigate()
+        console.log('htelo')
+        uni.navigateTo({
+          url: '../../../../../subpkg/pay/pay'
+        })
+
+
       },
-      delayNavigate(){
+
+      delayNavigate() {
         this.showTip(this.secounds)
-        this.timer=setInterval(()=>{
+        this.timer = setInterval(() => {
           this.secounds--
-          if(this.secounds<=0){
+          if (this.secounds <= 0) {
             clearInterval(this.timer)
             uni.switchTab({
-              url:'/pages/my/my'
+              url: '/pages/my/my'
             })
-            this.secounds=3
+            this.secounds = 3
             return
           }
           this.showTip(this.secounds)
-        },1000)
+        }, 1000)
       },
       showTip(n) {
         uni.showToast({

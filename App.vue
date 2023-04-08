@@ -7,7 +7,7 @@
     onShow() {
       console.log('App Show')
     },
-    onHide: function() {
+    onHide() {
       console.log('App Hide')
     },
 

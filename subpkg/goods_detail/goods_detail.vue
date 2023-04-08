@@ -119,6 +119,7 @@
           id
         })
         if (res.code !== 0) return uni.$showMsg()
+        console.log(res.message)
         // 为数据赋值
         this.goods_info = res.message
       },
@@ -144,12 +145,16 @@
       buttonClick(e) {
         if (e.content.text === '加入购物车') {
           const goods = {
-            id: this.goods_info.id,
-            goods_name: this.goods_info.goods_name,
-            goods_price: this.goods_info.goods_price,
+            goods_id: this.goods_info.id,
+            goods_name: this.goods_info.equipname,
+            goods_price: this.goods_info.price,
             goods_count: 1,
-            goods_small_logo: this.goods_info.goods_small_logo,
-            goods_state: true
+            goods_small_logo: this.goods_info.img,
+            goods_state: true,
+            goods_game:this.goods_info.gamename,
+            goods_seller_img:this.goods_info.user.img,
+            goods_seller_name:this.goods_info.user.realName,
+            goods_seller_id:this.goods_info.user.id,
           }
           this.addToCart(goods)
         }

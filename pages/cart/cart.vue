@@ -2,7 +2,7 @@
   <view class="cart-page">
     <my-top></my-top>
     <view class="cart-container" v-if="cart.length!==0">
-      <my-address></my-address>
+
       <!-- 购物车商品列表的标题区域 -->
       <view class="cart-title">
         <!-- 左侧的图标 -->
@@ -12,10 +12,15 @@
       </view>
       <!-- 商品列表区域 -->
       <uni-swipe-action>
-        <block v-for="(goods, i) in cart" :key="i">
-          <uni-swipe-action-item :right-options="options" @click="swipeActionClickHandler(goods)">
-            <cart-goods :goods="goods" :showRadio="true" :showNum="true" @radio-change="radioChangeHandler"
-              @num-change="numberChangeHandler"></cart-goods>
+        <block v-for="(cartItem, i) in cart" :key="i">
+          <view>{{cartItem.game}}</view>
+          <!--  @click="swipeActionClickHandler(goods)"
+          @num-change="numberChangeHandler"
+          @radio-change="radioChangeHandler"
+          -->
+          <uni-swipe-action-item v-for="(goods, j) in cartItem.goodList"  :key="j" :right-options="options" 
+          @click="removeGoodsById(goods)"  >
+            <cart-goods :goods="goods" :showRadio="true" :showNum="true" @radio-change="radioChangeHandler"></cart-goods>
           </uni-swipe-action-item>
         </block>
       </uni-swipe-action>
@@ -52,18 +57,12 @@
       };
     },
     methods: {
-      ...mapMutations('m_cart', ['updateGoodsState', 'updateGoodsCount', 'removeGoodsById']),
+      ...mapMutations('m_cart', ['updateGoodsState', 'removeGoodsById']),
       // 商品的勾选状态发生了变化
       radioChangeHandler(e) {
         this.updateGoodsState(e)
       },
-      // 商品的数量发生了变化
-      numberChangeHandler(e) {
-        this.updateGoodsCount(e)
-      },
-      swipeActionClickHandler(goods) {
-        this.removeGoodsById(goods.goods_id)
-      }
+
     },
     onShow() {
 

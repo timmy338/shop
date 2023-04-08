@@ -10,11 +10,18 @@
       <view class="goods-item-right">
         <!-- 商品标题 -->
         <view class="goods-name">{{goods.goods_name}}</view>
+
         <view class="goods-info-box">
           <!-- 商品价格 -->
           <view class="goods-price">￥{{goods.goods_price}}</view>
-          <uni-number-box v-if="showNum" :min="1" :value="goods.goods_count" @change="numChangeHandler">
-          </uni-number-box>
+          <view class="seller">
+            <image :src="goods.goods_seller_img"></image>
+            <view class="name">
+              {{ goods.goods_seller_name}}
+            </view>
+          </view>
+          <!--          <uni-number-box v-if="showNum" :min="1" :value="goods.goods_count" @change="numChangeHandler">
+          </uni-number-box> -->
         </view>
       </view>
     </view>
@@ -42,7 +49,7 @@
         default: false,
       },
     },
-    
+
     data() {
       return {
         // 默认的空图片
@@ -57,24 +64,26 @@
         this.$emit('radio-change', {
           goods_id: this.goods.goods_id,
           // 商品最新的勾选状态
-          goods_state: !this.goods.goods_state
+          goods_state: !this.goods.goods_state,
+          goods_game:this.goods.goods_game
         })
       },
-      // NumberBox 组件的 change 事件处理函数
-      numChangeHandler(val) {
-        // 通过 this.$emit() 触发外界通过 @ 绑定的 num-change 事件
-        this.$emit('num-change', {
-          // 商品的 Id
-          goods_id: this.goods.goods_id,
-          // 商品的最新数量
-          goods_count: +val
-        })
-      }
+      /*      // NumberBox 组件的 change 事件处理函数
+            numChangeHandler(val) {
+              // 通过 this.$emit() 触发外界通过 @ 绑定的 num-change 事件
+              this.$emit('num-change', {
+                // 商品的 Id
+                goods_id: this.goods.goods_id,
+                // 商品的最新数量
+                goods_count: +val
+              })
+            } */
     }
   }
 </script>
 <style lang="scss">
   .cart-goods {
+
     .goods-item {
       display: flex;
       padding: 10px 5px;
@@ -100,15 +109,31 @@
         flex: 1;
 
         .goods-name {
-          font-size: 13px;
+          font-size: 15px;
         }
 
         .goods-info-box {
           display: flex;
           justify-content: space-between;
+
+          .seller {
+            display: flex;
+            align-items: center;
+
+            image {
+              width: 30px;
+              height: 30px;
+              border-radius: 3em;
+            }
+
+            .name {
+              margin-left: 5px;
+            }
+          }
+
           .goods-price {
-            font-size: 16px;
-            font-weight: 500;
+            font-size: 20px;
+            font-weight: 800;
             color: #EB554E;
           }
         }
