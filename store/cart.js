@@ -88,6 +88,15 @@ export default {
         x.goodList.filter(y => y.goods_state).reduce((total, item) => total += item.goods_price, 0)
       )
       return goodsTotal.toFixed(2)
+    },
+    payList(state){
+      let goodList=[]
+      state.cart.forEach(
+        x => x.goodList.filter(y => y.goods_state)
+        .forEach(x=>goodList.push(x))
+        )
+      
+      return goodList;
     }
   }
 }

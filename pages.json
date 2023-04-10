@@ -65,8 +65,41 @@
         "path": "pay/pay",
         "style": {
           "navigationBarTitleText": "",
+          "enablePullDownRefresh": false,
+          "backgroundColor": "#F0F0F2"
+        }
+      },
+      {
+        "path": "receipt/receipt",
+        "style": {
+          "navigationBarTitleText": "",
+          "enablePullDownRefresh": false,
+          "backgroundColor": "#F0F0F2"
+        }
+      }
+
+      , {
+        "path": "init_receipt/init_receipt",
+        "style": {
+          "navigationBarTitleText": "",
+          "enablePullDownRefresh": false,
+          "backgroundColor": "#F0F0F2"
+        }
+
+      }, {
+        "path": "order_list/order_list",
+        "style": {
+          "navigationBarTitleText": "",
           "enablePullDownRefresh": false
         }
+
+      }, {
+        "path": "my_upload_list/my_upload_list",
+        "style": {
+          "navigationBarTitleText": "",
+          "enablePullDownRefresh": false
+        }
+
       }
     ]
   }],

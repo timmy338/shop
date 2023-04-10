@@ -37,7 +37,6 @@
         if (!this.checkedCount) return uni.$showMsg('請先勾選商品!')
         if (!this.token) return uni.$showMsg('請先登錄!')
         if (!this.token) return this.delayNavigate()
-        console.log('htelo')
         uni.navigateTo({
           url: '../../../../../subpkg/pay/pay'
         })
