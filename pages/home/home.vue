@@ -23,29 +23,9 @@
         <text>{{item.name}}</text>
       </navigator>
     </view>
-    <!-- 楼层区域 -->
-    <view class="floor-list">
-      <text class="title">遊戲分類</text>
-      <!-- 楼层 item 项 -->
-      <view class="floor-item" v-for="(item, i) in floorList.slice(0,1)" :key="i">
-        <!-- 楼层图片区域 -->
-        <view class="floor-img-box">
-          <!-- 左侧大图片的盒子 -->
-          <view class="left-img-box">
-            <image :src="item.product_list[0].image_src" mode="widthFix"></image>
-          </view>
-          <!-- 右侧 4 个小图片的盒子 -->
-          <view class="right-img-box">
-            <view class="right-img-item" v-for="(item2, i2) in item.product_list.slice(1,3)" :key="i2">
-              <image :src="item2.image_src" mode="widthFix"></image>
-            </view>
-          </view>
-        </view>
-      </view>
 
-    </view>
     <view class="rcmd-box">
-      <text class="title">推薦商品</text>
+      <text class="title">熱門商品</text>
       <!-- 推薦商品 -->
       <view class="rcmd-list">
         <view class="rcmd-item" v-for="(item,i) in rcmdList">
@@ -127,20 +107,7 @@
         this.rcmdList = [...this.rcmdList, ...res.message]
         this.rcmdListTotalPage = res.totalPage
       },
-      /* // 获取商品列表数据的方法
-      async getGoodsList(cb) {
-        this.isloading=true
-        // 发起请求
-        const {
-          data: res
-        } = await uni.$http.get('/api/public/v1/goods/search', this.queryObj)
-        this.isloading=false
-        cb && cb()
-        if (res.meta.status !== 200) return uni.$showMsg()
-        // 为数据赋值
-        this.goodsList = [...this.goodsList,...res.message.goods]
-        this.rcmdListTotal = res.message.rcmdListTotal
-      }, */
+    
 
     },
     onReachBottom() {

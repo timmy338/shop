@@ -1,7 +1,7 @@
 <template>
   <view class="goods-item" @click="gotoDetail(goods.id)">
     <!-- 商品照片 -->
-    <image class="goods-item-image" :src="goods.img || defaultPic"></image>
+    <image class="goods-item-image" :src="imgShow || defaultPic"></image>
     <!-- 商品名稱 -->
     <view class="goods-item-name">{{goods.equipname}}</view>
     <!-- 商品信息(價格,數量) -->
@@ -42,6 +42,13 @@
     computed: {
       fix() {
         return Number(this.goods.price).toFixed(2)
+      },
+      imgShow() {
+        if (this.goods.img.includes("https")) {
+          return this.goods.img
+        } else {
+          return 'http://localhost:8080/image/equipUpload/' + this.goods.img
+        }
       }
     }
 

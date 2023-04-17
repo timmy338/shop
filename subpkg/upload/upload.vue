@@ -207,7 +207,6 @@
       async uploadEquip() {
         if (this.tagList.length != 0) {
           this.tagList.forEach(x => this.form.equipInfo.itemTagsList += x.id + "|")
-          this.form.equipInfo.itemTagsList = this.form.equipInfo.itemTagsList.slice(0, -1)
         }
         console.log(this.form.equipInfo)
 

@@ -28,6 +28,7 @@
       }
 
     }
+
   ],
   "subPackages": [{
     "root": "subpkg",
@@ -99,7 +100,13 @@
           "navigationBarTitleText": "",
           "enablePullDownRefresh": false
         }
-
+      },
+      {
+        "path": "user_recs/user_recs",
+        "style": {
+          "navigationBarTitleText": "",
+          "enablePullDownRefresh": false
+        }
       }
     ]
   }],
